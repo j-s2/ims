@@ -6,6 +6,7 @@ import com.example.IMSBACKEND.exception.NoListFoundException;
 import com.example.IMSBACKEND.exception.NoListFoundMonthYearException;
 import com.example.IMSBACKEND.model.Item;
 import com.example.IMSBACKEND.model.Items;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -29,21 +30,21 @@ public class ItemsService {
         return 1;
     }
 
-    public int deleteItemsByDate(LocalDate dateStart){
+    @Transactional
+    public void deleteItemsByDate(LocalDate dateStart){
 
         //retrieve list at date
         List<Items> deleted = itemsRepo.findByDateBetween(dateStart, dateStart);
 
         if(deleted.isEmpty()){
             //throw NoListFound() exception
-            return 0;
+            throw new NoListFoundException(dateStart);
         }
-        else{
 
-            //delete list by id
-            itemsRepo.deleteById(deleted.get(0).getId());
-            return 1;
-        }
+
+        //delete list by id
+        itemsRepo.deleteListById(deleted.get(0).getId());
+
     }
 
     public List<Items> getItemsByFullDate(LocalDate dateStart){
@@ -68,7 +69,7 @@ public class ItemsService {
         return foundItems;
     }
 
-    public int updateByName(LocalDate date, Item newInfo, String nameId){
+    public void updateByName(LocalDate date, Item newInfo, String nameId){
         Item returnItem = new Item();
         returnItem.setQuantity(0);
         returnItem.setName("");
@@ -101,17 +102,15 @@ public class ItemsService {
 
         //if item does not exist or list in general does not exist
         if(returnItem.getName().isEmpty() && returnItem.getQuantity() == 0){
-            return 0;
+            throw new ItemNotFoundException(date, nameId);
         }
-        else{
-            //update list with new information
-            itemsRepo.saveAll(listToUpdate);
-            return 1; //retrieve quantity to output back to client
-        }
+
+        //update list with new information
+        itemsRepo.saveAll(listToUpdate);
     }
 
 
-    public int deleteByName(LocalDate dateStart, String itemToDelete){
+    public void deleteByName(LocalDate dateStart, String itemToDelete){
 
         boolean itemExists = false;
 
@@ -134,13 +133,11 @@ public class ItemsService {
         }
 
         if(!itemExists){
-            return 0;
+            throw new ItemNotFoundException(dateStart, itemToDelete);
         }
-        else{
-            //update list with new information
-            itemsRepo.saveAll(listToUpdate);
-            return 1;
-        }
+
+        //update list with new information
+        itemsRepo.saveAll(listToUpdate);
 
     }
 

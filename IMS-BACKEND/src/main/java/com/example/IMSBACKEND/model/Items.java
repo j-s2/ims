@@ -9,6 +9,7 @@ import org.hibernate.annotations.CascadeType;
 
 import java.time.LocalDate;
 import java.time.YearMonth;
+import java.util.ArrayList;
 import java.util.List;
 @Entity
 public class Items {
@@ -22,6 +23,7 @@ public class Items {
     //this means "Item" objects are fully owned by "Items" entity.
     private List<Item> items; //inventory at this date
     private LocalDate date; //Items.setDate(LocalDate.of(2023,12, 31));
+
 
     //getters and setters
 

@@ -10,6 +10,8 @@ import com.example.IMSBACKEND.service.ItemsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cglib.core.Local;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.DateTimeException;
@@ -36,7 +38,7 @@ public class ItemsController {
     /**alter void type declaration to provide response to client**/
 
     @PostMapping(path = "{date}")
-    public String addItems(@RequestBody List<Item> items,
+    public ResponseEntity<String> addItems(@RequestBody List<Item> items,
                          @PathVariable("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)String date
                          ){
         /** check if date is valid **/
@@ -62,17 +64,17 @@ public class ItemsController {
         int response = itemsService.addItemsList(newAdd);
         //return response to client based on success of action
         if(response == 1){
-            return "Items have been successfully logged for " + date + ".";
+            return new ResponseEntity<>("Items have been successfully logged for " + date + ".", HttpStatus.OK);
         }
         else{
-            return "Items have not been successfully logged for " + date + ".";
+            return new ResponseEntity<>("Items were not logged.", HttpStatus.BAD_REQUEST);
         }
     }
 
 
     //delete item list by full date
     @DeleteMapping(path = "{date}")
-    public String deleteItems(@PathVariable("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)String date){
+    public ResponseEntity<String> deleteItems(@PathVariable("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)String date){
 
         /** check if date is valid **/
 
@@ -86,14 +88,11 @@ public class ItemsController {
             throw new DateNotValidException(date);
         }
 
-        //delete items from db
-        int response = itemsService.deleteItemsByDate(parsedDate);
-        //return response to client based on success of action
-        if(response == 1){
-            return "Items logged on " + date + " have been deleted.";
-        }
-        else{
-            throw new NoListFoundException(parsedDate);
+        try{
+            itemsService.deleteItemsByDate(parsedDate);
+            return new ResponseEntity<>("Items logged on " + parsedDate + " have been deleted.", HttpStatus.OK);
+        }catch(NoListFoundException e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
 
     }
@@ -152,7 +151,7 @@ public class ItemsController {
 
     //update item in a list by full date, identified by name
     @PutMapping(path = "{date}/update")
-    public String updateItemByName(
+    public ResponseEntity<String> updateItemByName(
             @PathVariable("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)String date,
             @RequestBody UpdateItemsBody updateItemsBody
             ){
@@ -184,23 +183,18 @@ public class ItemsController {
         newItem.setName(updateItemsBody.getNewName());
         newItem.setQuantity(updateItemsBody.getNewQuant());
 
-        //update item
-        int response = itemsService.updateByName(parsedDate, newItem, updateItemsBody.getItemToUpdate());
-
-        //return response to client based on success of action
-        if(response == 1){
-            return "Item has been updated successfully.";
-        }
-        else{
-            throw new ItemNotFoundException(parsedDate, updateItemsBody.getItemToUpdate());
+        try{
+            itemsService.updateByName(parsedDate, newItem, updateItemsBody.getItemToUpdate());
+            return new ResponseEntity<>("Item has been updated successfully.", HttpStatus.OK);
+        }catch (ItemNotFoundException e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
     }
 
     //delete item in a list by full date, identified by name
 
-
     @DeleteMapping(path = "{date}/delete/{itemName}")
-    public String deleteItemByName(
+    public ResponseEntity<String> deleteItemByName(
             @PathVariable("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)String date,
             @PathVariable("itemName") String itemName
     ){
@@ -218,13 +212,12 @@ public class ItemsController {
         }
 
         //delete item
-        int response = itemsService.deleteByName(parsedDate, itemName);
-        //return response to client based on success of action
-        if(response == 1){
-            return "Item '" + itemName + "' has been successfully deleted.";
-        }
-        else{
-            throw new ItemNotFoundException(parsedDate, itemName);
+        try {
+            itemsService.deleteByName(parsedDate, itemName);
+            //return response to client based on success of action
+            return new ResponseEntity<>("Item '" + itemName + "' has been deleted from " + parsedDate + " log.", HttpStatus.OK);
+        }catch(ItemNotFoundException e){
+            return new ResponseEntity<>(e.getMessage(),HttpStatus.NOT_FOUND);
         }
 
     }
