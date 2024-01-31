@@ -109,12 +109,16 @@ public class ItemsService {
         itemsRepo.saveAll(listToUpdate);
     }
 
-
+    @Transactional
     public void deleteByName(LocalDate dateStart, String itemToDelete){
 
         boolean itemExists = false;
 
+        Long tempId;
+
         List<Items> listToUpdate = itemsRepo.findByDateBetween(dateStart, dateStart);
+
+        tempId = listToUpdate.get(0).getId();
 
         //loop through list of items
         for(Items items : listToUpdate){
@@ -136,8 +140,13 @@ public class ItemsService {
             throw new ItemNotFoundException(dateStart, itemToDelete);
         }
 
-        //update list with new information
-        itemsRepo.saveAll(listToUpdate);
+        if(listToUpdate.get(0).getItems().isEmpty()){
+            itemsRepo.deleteListById(tempId); //if list is empty after deleting item, delete list from db entirely
+        }
+        else {
+            //update list with new information
+            itemsRepo.saveAll(listToUpdate);
+        }
 
     }
 

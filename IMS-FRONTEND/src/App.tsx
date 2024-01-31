@@ -1,18 +1,15 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
+import { useState } from "react";
+import reactLogo from "./assets/react.svg";
 //import './App.css'
-import { Actions } from './pages/Actions'
-import 'bootstrap/dist/css/bootstrap.min.css';
-
+import { Actions } from "./pages/Actions";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
-  
-
   return (
     <div className="App">
-      <Actions/>
+      <Actions />
     </div>
-  )
+  );
 }
 
-export default App
+export default App;

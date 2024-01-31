@@ -26,6 +26,7 @@ import static java.time.temporal.TemporalAdjusters.lastDayOfMonth;
 
 @RestController
 @RequestMapping("/items")
+@CrossOrigin("http://localhost:5173")
 public class ItemsController {
     private final ItemsService itemsService;
 
@@ -42,6 +43,9 @@ public class ItemsController {
                          @PathVariable("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)String date
                          ){
         /** check if date is valid **/
+
+        System.out.println("Received request for date: " + date);
+        System.out.println("Request body: " + items);
 
         LocalDate parsedDate;
 

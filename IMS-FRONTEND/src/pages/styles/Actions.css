@@ -3,11 +3,19 @@ body{
     padding: 0;
 }
 
-/* allows for containers to be positioned next to each other 
-in a column layout */
 .actions{
     display: flex;
+    flex-direction: column;
     background-color: #e76262;
+    align-items: center;
+    gap: 50px;
+}
+
+.title-container{
+    color: white;
+    font-size: 50px;
+    font-weight: bold;
+    margin-top: 40px;
 }
 
 .arrow-actions{
@@ -28,9 +36,12 @@ in a column layout */
     flex-direction: column;
     color: white;
     /* controls position of container */
-    margin-top: 100px; 
-    margin-left: 78px;
+    /* margin-top: 100px; */
+    /* margin-left: 78px; */
+    gap: 10px;
 }
+
+/* Drop down button */
 
 .dropdown-button-custom{
     background-color: #ffffff !important;
@@ -40,6 +51,7 @@ in a column layout */
     border-color: white !important;
     width: 400px !important;
     transition: background-color 0.5s ease, color 0.5s ease !important;
+    border-radius: 10px !important;
 }
 
 .dropdown-button-custom:hover{
@@ -51,6 +63,7 @@ in a column layout */
 .dropdown-menu-custom{
     width: 400px !important;
     align-items: center !important;
+    border-radius: 10px !important;
 }
 
 .dropdown-item-custom{
@@ -62,4 +75,291 @@ in a column layout */
 
 .dropdown-item-custom:hover{
     background-color: #f3d7d7 !important;
+}
+
+/* add inventory container */
+
+.add-inventory{
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    gap: 2px;
+    width: 246.4px;
+}
+
+/* Date input box */
+
+.date-input{
+    border-radius: 10px;
+    border-color: white;
+    color: #e76262;
+    border-style: none;
+    text-align: center;
+}
+
+.date-input:focus{
+    border-color: #ede0e0;
+    outline: none;
+}
+
+/* Remove placeholder text on click */
+.date-input:focus::placeholder{
+    color:transparent;
+}
+
+.add-item-button-container{
+    display: flex;
+    justify-content: end;
+    height: 50px;
+    align-items: center;
+    margin-top: -5px;
+    margin-right: -8px;
+}
+
+.add-item-button{
+    border-color: transparent;
+    background-color: transparent;
+    font-size: 40px;
+    color: white;
+    text-align: end;
+}
+
+.add-item-button:focus{
+    color: #ede0e0;
+}
+
+.add-item-input{
+    border-radius: 10px;
+    border-color: #ede0e0;
+    color: #e76262;
+    border-style: none;
+    text-align: center;
+}
+
+.add-item-input:focus{
+    border-color: #ede0e0;
+    outline: none;
+}
+
+.add-item-input-container{
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+}
+
+/* to control gap properties of item input rows 
+cannot use gap in add-inventory as this will affect other elements besides the input boxes
+*/
+.add-items-container{
+    display: flex;
+    gap: 8px;
+    flex-direction: column;
+}
+
+.submit-button-container{
+    display: flex;
+    justify-content: end;
+    margin-top: 10px;
+}
+
+.submit-button{
+    border-radius: 10px;
+    width: 80px;
+    border-style: none;
+    background-color: orange;
+    color: white;
+}
+
+.submit-button:hover{
+    background-color: #ce8807;
+    transition: background-color 0.5s ease;
+}
+
+/* reusable */
+.invalid-error{
+    text-align: center;
+    font-weight: bold;
+    color: white;
+    font-style: oblique;
+    margin-top: 10px;
+}
+
+/* reusable */
+.success-response{
+    font-size: large;
+    font-weight: 500;
+}
+
+.delete-inventory-date{
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+}
+
+.delete-inventory-button{
+    border-radius: 10px;
+    border-style: none;
+    background-color: red;
+    color: white;
+    font-size: 17px;
+    font-weight: bold;
+}
+
+.delete-inventory-button:hover{
+    background-color: #bf0808;
+    transition: background-color 0.5s ease;
+}
+
+.delete-inventory{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.retrieve-inventory{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.retrieve-inventory-day{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px
+}
+
+.retrieve-inventory-options{
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+}
+
+.retrieve-inventory-options-buttons{
+    border-radius: 10px;
+    border-style: none;
+    background-color: brown;
+    color: white;
+}
+
+.retrieve-inventory-options-buttons:hover{
+    background-color: #822121;
+    transition: background-color 0.5s ease;
+}
+
+
+.retrieve-inventory-day-input{
+    display: flex;
+    gap: 10px;
+}
+
+.retrieve-button{
+    border-radius: 10px;
+    color: white;
+    background-color: orange;
+    border-style: none;
+}
+
+.retrieve-button:hover{
+    background-color: #ce8807;
+    transition: background-color 0.5s ease;
+}
+
+.retrieve-day-items{
+    display: flex;
+    flex-direction: column;
+    background-color: #d15c5c;
+    min-width: 300px;
+    border-radius: 10px;
+    align-items: center;
+}
+
+.retrieve-day-item{
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    font-size: 16px;
+    margin-left: 10px;
+}
+
+.retrieve-month-button-custom{
+    background-color: #ffffff !important;
+    color: #e76262 !important;
+    font-weight: bold !important;
+    border-color: white !important;
+    transition: background-color 0.5s ease, color 0.5s ease !important;
+    padding: 2px !important;
+    margin: 0 !important;
+    font-size: 16px !important;
+    border-radius: 10px !important;
+}
+
+.retrieve-month-button-custom:hover{
+    background-color: #ede0e0 !important;
+    color: #e76262 !important;
+    border-color: #ede0e0 !important;
+}
+
+.retrieve-month-menu-custom {
+    align-items: center !important;
+    width: auto !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    width: 125px !important;
+    border-radius: 10px !important;
+}
+
+.retrieve-month-date-custom{
+    transition: background-color 0.8s ease, color 0.8s ease !important;
+    color: #e76262 !important;
+    text-align: center !important;
+    font-size: 15px !important;
+}
+
+.retrieve-month-date-custom:hover{
+    background-color: #f3d7d7 !important;
+}
+
+.update-item-main-container{
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.update-item-newInfo{
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+}
+
+.update-item-button{
+    border-radius: 10px;
+    border-style: none;
+    background-color: orange;
+    color: white;
+}
+
+.update-item-button:hover{
+    background-color: #ce8807;
+    transition: background-color 0.5s ease;
+}
+
+.delete-item-main-container{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+}
+.delete-item-button{
+    border-radius: 10px;
+    border-style: none;
+    background-color: red;
+    color: white;
+}
+
+.delete-item-button:hover{
+    background-color: #bf0808;
+    transition: background-color 0.5s ease;
 }
