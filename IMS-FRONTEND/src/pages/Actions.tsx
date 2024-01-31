@@ -673,12 +673,10 @@ export const Actions = () => {
               </div>
             )}
           </div>
-          {/* returns successful response after action, for non Get methods*/}
           {errorResponse === false && serverResponse.length > 1 && (
             <div className="success-response">{serverResponse}</div>
           )}
         </div>
-        {/* <div className="arrow-actions">Arrow Icon</div> */}
       </div>
     </div>
   );
